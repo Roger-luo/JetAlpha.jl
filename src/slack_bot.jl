@@ -42,10 +42,9 @@ end
 
 
 function slack_bot_cmd_calc(cmd)
-    rmatch = match(r"^calc\b([\d\s+\-*/.]+)$"im, cmd)
+    rmatch = match(r"^calc\b([\^\(\)\d\s+\-*/.]+)$"im, cmd)
     rmatch == nothing && return "Bad expression"
     expr_str = rmatch[1]
-    println(expr_str)
     try
         expr = parse(expr_str)
         return string(expr) * " = " * string(eval(expr))
