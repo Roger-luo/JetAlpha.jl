@@ -73,8 +73,8 @@ function slack_bot_cmd_doc(cmd)
 
     #keyword
     if length(names) == 1 && haskey(Docs.keywords, symbol(names[1]))
-        doc = Docs.keywords[symbol(names[1])]
-        return "Document for `$(names[1])`:\n$(doc)\n"
+        doc_md = Docs.keywords[symbol(names[1])]
+        @goto found
     end
 
     #obj
@@ -90,6 +90,7 @@ function slack_bot_cmd_doc(cmd)
         end
     end
     doc_md = Docs.doc(target_obj)
+    @label found
     buf = IOBuffer()
     writemime(buf, MIME{symbol("text/plain")}(), doc_md)
     doc = takebuf_string(buf)
