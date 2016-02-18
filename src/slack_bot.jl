@@ -75,7 +75,11 @@ function slack_bot_cmd_doc(cmd)
         if isa(target_obj, Module)
             sym = symbol(name)
             if isdefined(target_obj, sym)
-                target_obj = eval(target_obj, sym)
+                if VERSION < v"0.5.0" && name[1] == '@'
+                    target_obj = Base.Docs.Binding(target_obj, sym)
+                else
+                    target_obj = eval(target_obj, sym)
+                end
             else
                 return "No object is named `$(rmatch[1])`."
             end
