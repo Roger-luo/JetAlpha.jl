@@ -9,6 +9,9 @@ julia:
   - 0.4
 #  - nightly
 
+env:
+- USE_GPL_MBEDTLS=1
+
 notifications:
   email: false
   webhooks: https://hooks.pubu.im/services/gg69bq2qrw38i8d
