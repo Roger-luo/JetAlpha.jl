@@ -1,5 +1,5 @@
 
-function slack_bot(req)
+function slack_bot(req::Dict)
     #print(req)
     request_data = parsequerystring(bytestring(req[:data]))
     response_text = slack_message_router(request_data)
@@ -16,6 +16,17 @@ function slack_bot(req)
 
     Dict(:headers => headers,
          :body => text)
+end
+
+function slack_bot(text::AbstractString, user=nothing)
+    text = URIParser.escape(text)
+    user = URIParser.escape(user == nothing ? "Tester" : user)
+    data = "text=$text&user_name=$user".data
+    #fake_req = Request("POST", "/bot/slack", Dict(), data)
+    fake_req = Dict(:data => data)
+    response = slack_bot(fake_req)
+    rdata = JSON.Parser.parse(get(response, :body, "{}"))
+    return get(rdata, "text", "")
 end
 
 slack_bot_page = page("/bot/slack",

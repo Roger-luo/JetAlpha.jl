@@ -3,8 +3,9 @@ module JetAlpha
 using Mux
 using JSON
 using HttpCommon
+using URIParser
 
-export start_server
+export start_server, slack_bot
 
 include("slack_bot.jl")
 
