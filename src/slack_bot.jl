@@ -70,21 +70,23 @@ function slack_bot_cmd_doc(cmd)
     rmatch = match(r"^doc\s+([\w@][_\d\w]*(\.[\w@][_\d\w]*)*)\b"i, cmd)
     rmatch == nothing && return "Bad object name."
     names = split(rmatch[1], ".")
+
+    #keyword
+    if length(names) == 1 && haskey(Docs.keywords, symbol(names[1]))
+        doc = Docs.keywords[symbol(names[1])]
+        return "Document for `$(names[1])`:\n$(doc)\n"
+    end
+
+    #obj
     target_obj = Main
     for name in names
-        if isa(target_obj, Module)
-            sym = symbol(name)
-            if isdefined(target_obj, sym)
-                if VERSION < v"0.5.0" && name[1] == '@'
-                    target_obj = Base.Docs.Binding(target_obj, sym)
-                else
-                    target_obj = eval(target_obj, sym)
-                end
-            else
-                return "No object is named `$(rmatch[1])`."
-            end
+        !isa(target_obj, Module) && @goto not_found
+        sym = symbol(name)
+        !isdefined(target_obj, sym) && @goto not_found
+        if VERSION < v"0.5.0" && name[1] == '@'
+            target_obj = Base.Docs.Binding(target_obj, sym)
         else
-            return "No object is named `$(rmatch[1])`."
+            target_obj = eval(target_obj, sym)
         end
     end
     doc_md = Docs.doc(target_obj)
@@ -92,4 +94,6 @@ function slack_bot_cmd_doc(cmd)
     writemime(buf, MIME{symbol("text/plain")}(), doc_md)
     doc = takebuf_string(buf)
     return "Document for `$(rmatch[1])`:\n$(doc)\n"
+    @label not_found
+    return "No object is named `$(rmatch[1])`."
 end
