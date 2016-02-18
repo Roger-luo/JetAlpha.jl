@@ -1,5 +1,7 @@
 # JetAlpha
 
+![JetAlpha!](http://res.cloudinary.com/kdr2/image/upload/c_crop,h_280,w_500/v1455802308/misc/jetalpha-logo-v1.png)
+
 [![Build Status](https://travis-ci.org/KDr2/JetAlpha.jl.svg)](https://travis-ci.org/KDr2/JetAlpha.jl)
 
 JetAlpha is a playground for julians, mostly for fun and exploring the Julia language.
