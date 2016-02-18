@@ -10,7 +10,12 @@ julia:
 #  - nightly
 
 env:
-- USE_GPL_MBEDTLS=1
+  - USE_GPL_MBEDTLS=1
+
+branches:
+  only:
+    - master
+    - /^release-.+$/
 
 notifications:
   email: false

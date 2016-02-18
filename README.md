@@ -1,5 +1,7 @@
 # JetAlpha
 
+[![Build Status](https://travis-ci.org/KDr2/JetAlpha.jl.svg)](https://travis-ci.org/KDr2/JetAlpha.jl)
+
 JetAlpha is a playground for julians, mostly for fun and exploring the Julia language.
 
 It has a simple Bot interface for slack and(or) pubu.im, you can join the channel
