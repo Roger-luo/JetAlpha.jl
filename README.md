@@ -5,7 +5,8 @@
 JetAlpha is a playground for julians, mostly for fun and exploring the Julia language.
 
 It has a simple Bot interface for slack and(or) pubu.im, you can join the channel
-`JetAlpha` on https://julia.pubu.im to discuss about and play with JetAlpha.
+`JetAlpha` on [julia.pubu.im](https://julia.pubu.im/reg/8n4bwmmlkym8c98 "PUBU IM") to
+discuss about and play with JetAlpha.
 
 [Join julia.pubu.im](https://julia.pubu.im/reg/8n4bwmmlkym8c98 "PUBU IM") and say
 hello to JetAlpha now.
