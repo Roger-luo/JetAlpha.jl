@@ -7,7 +7,7 @@ os:
 
 julia:
   - 0.4
-#  - nightly
+  - nightly
 
 env:
   - USE_GPL_MBEDTLS=1
