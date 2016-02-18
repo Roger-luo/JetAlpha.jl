@@ -26,7 +26,7 @@ function slack_bot(text::AbstractString, user=nothing)
     fake_req = Dict(:data => data)
     response = slack_bot(fake_req)
     rdata = JSON.Parser.parse(get(response, :body, "{}"))
-    return get(rdata, "text", "")
+    return get(rdata, "text", nothing)
 end
 
 slack_bot_page = page("/bot/slack",
@@ -44,6 +44,8 @@ function slack_message_router(msg)
 
     if ismatch(r"^calc\b"i, cmd)
         return slack_bot_cmd_calc(cmd)
+    elseif ismatch(r"^doc\b"i, cmd)
+        return slack_bot_cmd_doc(cmd)
     end
 
     return "Hi @$request_user, I got your cmd: [ $cmd ], " *
@@ -62,4 +64,28 @@ function slack_bot_cmd_calc(cmd)
     catch
         return "Bad expression"
     end
+end
+
+function slack_bot_cmd_doc(cmd)
+    rmatch = match(r"^doc\s+(\w[_\d\w]*(\.\w[_\d\w]*)*)\b"i, cmd)
+    rmatch == nothing && return "Bad object name."
+    names = split(rmatch[1], ".")
+    target_obj = Main
+    for name in names
+        if isa(target_obj, Module)
+            sym = symbol(name)
+            if isdefined(target_obj, sym)
+                target_obj = eval(target_obj, sym)
+            else
+                return "No object is named `$(rmatch[1])`."
+            end
+        else
+            return "No object is named `$(rmatch[1])`."
+        end
+    end
+    doc_md = Docs.doc(target_obj)
+    buf = IOBuffer()
+    writemime(buf, MIME{symbol("text/plain")}(), doc_md)
+    doc = takebuf_string(buf)
+    return "Document for `$(rmatch[1])`:\n$(doc)\n"
 end
