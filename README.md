@@ -20,8 +20,8 @@ so far.
 
 ### Slack/Pubu Bot
 
-- cmd cacl: do simple arithmetic evaluation, e.g.: `jet, calc 1+2*3/4`
-- cmd doc: show document for julia object, e.g.: `jet, doc exit`
+- cmd `calc`: do simple arithmetic evaluation, e.g.: `jet, calc 1+2*3/4`
+- cmd `doc`: show document for julia object, e.g.: `jet, doc exit`
 
 ## Roadmap
 

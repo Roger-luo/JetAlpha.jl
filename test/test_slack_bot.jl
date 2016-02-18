@@ -10,3 +10,4 @@
 # cmd doc
 @test slack_bot("jet, doc Main.Base.exit1") == "No object is named `Main.Base.exit1`."
 @test contains(slack_bot("jet, doc Main.Base.exit"), "The default exit code is zero")
+@test contains(slack_bot("jet, doc Main.Base.@printf"), "`printf()`")

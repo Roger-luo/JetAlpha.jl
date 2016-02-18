@@ -67,7 +67,7 @@ function slack_bot_cmd_calc(cmd)
 end
 
 function slack_bot_cmd_doc(cmd)
-    rmatch = match(r"^doc\s+(\w[_\d\w]*(\.\w[_\d\w]*)*)\b"i, cmd)
+    rmatch = match(r"^doc\s+([\w@][_\d\w]*(\.[\w@][_\d\w]*)*)\b"i, cmd)
     rmatch == nothing && return "Bad object name."
     names = split(rmatch[1], ".")
     target_obj = Main
