@@ -1,0 +1,36 @@
+.fa {
+  color: #444;
+}
+
+.fa:hover {
+  color: #888;
+}
+
+h1 {
+  font-family: 'Consolas', monospace;
+  font-size: 5em;
+  color: #444;
+}
+
+@media only screen and (max-width: 320px) {
+   h1 { font-size: 3.75em; }
+}
+
+p {
+  color: #666;
+  font-family: 'Consolas', monospace;
+}
+
+#top {
+  padding: 1em 0 3.25em 0;
+}
+
+h4 {
+  color: #444;
+  font-family: 'Consolas', monospace;
+  font-size: 1.75em;
+}
+
+.columns {
+  margin-bottom: 2.5em;
+}
