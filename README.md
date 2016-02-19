@@ -1,6 +1,6 @@
 # JetAlpha
 
-![JetAlpha!](http://res.cloudinary.com/kdr2/image/upload/c_crop,h_280,w_500/v1455802308/misc/jetalpha-logo-v1.png)
+![JetAlpha!](http://res.cloudinary.com/kdr2/image/upload/c_crop,h_280,w_500/v1455894085/misc/jetalpha-logo-v2.png)
 
 [![Build Status](https://travis-ci.org/KDr2/JetAlpha.jl.svg)](https://travis-ci.org/KDr2/JetAlpha.jl)
 

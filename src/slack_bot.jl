@@ -7,7 +7,7 @@ function slack_bot(req::Dict)
 
     data = Dict(:text => response_text,
                 :username => "JetAlpha",
-                :icon_url => "http://res.cloudinary.com/kdr2/image/upload/v1455802308/misc/jetalpha-logo-v1.png",)
+                :icon_url => "http://res.cloudinary.com/kdr2/image/upload/v1455894085/misc/jetalpha-logo-v2.png",)
     text = JSON.json(data)
     headers = HttpCommon.headers()
     headers["Content-Type"] = "application/json"
