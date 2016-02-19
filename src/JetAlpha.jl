@@ -1,8 +1,9 @@
 module JetAlpha
 
-using Mux
-using JSON
+using Compat
 using HttpCommon
+using JSON
+using Mux
 using URIParser
 
 export start_server, slack_bot

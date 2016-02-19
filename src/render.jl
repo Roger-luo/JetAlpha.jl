@@ -11,7 +11,7 @@ function static(filename, content_type="text/html")
 
     open(datafile(filename)) do file
         #respond(readstring(file))
-        content = readstring(file)
+        content = @compat readstring(file)
         req -> Dict(:headers => headers,
                     :body => content)
     end
@@ -23,7 +23,7 @@ function static_reloadable(filename, content_type="text/html")
 
     req -> open(datafile(filename)) do file
         Dict(:headers => headers,
-             :body => readstring(file))
+             :body => @compat readstring(file))
     end
 end
 
