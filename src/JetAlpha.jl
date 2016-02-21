@@ -12,9 +12,10 @@ include("render.jl")
 include("slack_bot.jl")
 
 @app main = (Mux.defaults,
-             page(static_reloadable("templates/index.html")),
-             page("/static/styles/style.css", static_reloadable("static/styles/style.css", "text/css")),
-             page("/static/styles/foundation.css", static_reloadable("static/styles/foundation.css", "text/css")),
+             page(static_file_reloadable("templates/index.html")),
+             #page("/static/styles/style.css", static_file_reloadable("static/styles/style.css")),
+             #page("/static/styles/foundation.css", static_file_reloadable("static/styles/foundation.css")),
+             static("/static", "/static"),
              slack_bot_page,
              Mux.notfound())
 
