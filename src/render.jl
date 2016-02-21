@@ -49,5 +49,28 @@ function static_file_reloadable(filename)
     end
 end
 
+
+function markdown(prefix, dirname)
+    headers = HttpCommon.headers()
+    headers["Content-Type"] = "text/html"
+    not_found = Dict(:status => 404, :body => "File Not Found.")
+    dirname = dirname[1] == '/' ? dirname[2:end] : dirname
+    handler = req -> begin
+        filename = joinpath(dirname, joinpath(req[:path]...))
+        filepath = datafile(filename)  * ".md"
+        if !isfile(filepath)
+            return not_found
+        end
+        open(filepath) do file
+            content = @compat readstring(file)
+            html_body = Markdown.html(Markdown.parse(content))
+            Dict(:headers => headers,
+                 :body => html_body)
+        end
+    end
+    route(prefix, handler)
+end
+
+
 function render(file, data...)
 end
