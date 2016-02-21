@@ -13,7 +13,7 @@ discuss about and play with JetAlpha.
 [Join julia.pubu.im](https://julia.pubu.im/reg/8n4bwmmlkym8c98 "PUBU IM") and say
 hello to JetAlpha now.
 
-It also has a web interface at http://jetalpha.kdr2.com/, but it's just a simple page
+It also has a web interface at http://jetalpha.org/, but it's just a simple page
 so far.
 
 ## Features
