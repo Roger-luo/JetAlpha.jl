@@ -1,5 +1,11 @@
 # JetAlpha TODO'S
 
-* [ ] Slack BOT: A HTTP multipart form data parser, to parser the post data
-* [ ] Slack BOT: Bump a routing for the incoming message from pubu/slack
+* [ ] Header,Footer,CSS for Markdown rendered HTML
+* [ ] Mustache support
 * [ ] Reload the code on fly
+* [ ] A HTTP multipart form data parser, to parser the post data
+* [X] Markdown render
+* [X] static resource middle ware
+* [X] front page
+* [X] Slack Bot: cmd `calc`
+* [X] Slack Bot: cmd `doc`

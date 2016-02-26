@@ -1,5 +1,5 @@
 
-function slack_bot(req)
+function slack_bot(req::Dict)
     #print(req)
     request_data = parsequerystring(bytestring(req[:data]))
     response_text = slack_message_router(request_data)
@@ -7,7 +7,7 @@ function slack_bot(req)
 
     data = Dict(:text => response_text,
                 :username => "JetAlpha",
-                :icon_url => "http://res.cloudinary.com/kdr2/image/upload/c_crop,g_center,h_250,w_250,x_0,y_10/v1454772214/misc/c3p0-001.jpg",)
+                :icon_url => "http://res.cloudinary.com/kdr2/image/upload/v1455894085/misc/jetalpha-logo-v2.png",)
     text = JSON.json(data)
     headers = HttpCommon.headers()
     headers["Content-Type"] = "application/json"
@@ -16,6 +16,17 @@ function slack_bot(req)
 
     Dict(:headers => headers,
          :body => text)
+end
+
+function slack_bot(text::AbstractString, user=nothing)
+    text = URIParser.escape(text)
+    user = URIParser.escape(user == nothing ? "Tester" : user)
+    data = "text=$text&user_name=$user".data
+    #fake_req = Request("POST", "/bot/slack", Dict(), data)
+    fake_req = Dict(:data => data)
+    response = slack_bot(fake_req)
+    rdata = JSON.Parser.parse(get(response, :body, "{}"))
+    return get(rdata, "text", nothing)
 end
 
 slack_bot_page = page("/bot/slack",
@@ -33,6 +44,8 @@ function slack_message_router(msg)
 
     if ismatch(r"^calc\b"i, cmd)
         return slack_bot_cmd_calc(cmd)
+    elseif ismatch(r"^doc\b"i, cmd)
+        return slack_bot_cmd_doc(cmd)
     end
 
     return "Hi @$request_user, I got your cmd: [ $cmd ], " *
@@ -51,4 +64,37 @@ function slack_bot_cmd_calc(cmd)
     catch
         return "Bad expression"
     end
+end
+
+function slack_bot_cmd_doc(cmd)
+    rmatch = match(r"^doc\s+([\w@][_\d\w]*(\.[\w@][_\d\w]*)*)\b"i, cmd)
+    rmatch == nothing && return "Bad object name."
+    names = split(rmatch[1], ".")
+
+    #keyword
+    if length(names) == 1 && haskey(Docs.keywords, symbol(names[1]))
+        doc_md = Docs.keywords[symbol(names[1])]
+        @goto found
+    end
+
+    #obj
+    target_obj = Main
+    for name in names
+        !isa(target_obj, Module) && @goto not_found
+        sym = symbol(name)
+        !isdefined(target_obj, sym) && @goto not_found
+        if VERSION < v"0.5.0" && name[1] == '@'
+            target_obj = Base.Docs.Binding(target_obj, sym)
+        else
+            target_obj = eval(target_obj, sym)
+        end
+    end
+    doc_md = Docs.doc(target_obj)
+    @label found
+    buf = IOBuffer()
+    writemime(buf, MIME{symbol("text/plain")}(), doc_md)
+    doc = takebuf_string(buf)
+    return "Document for `$(rmatch[1])`:\n$(doc)\n"
+    @label not_found
+    return "No object is named `$(rmatch[1])`."
 end
